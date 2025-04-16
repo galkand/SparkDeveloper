@@ -35,7 +35,6 @@ def main(): Unit = {
   for (s <- students) {
     println(s)
   }
-  //task_06
 
   //List comprehensions
   val numList = List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
