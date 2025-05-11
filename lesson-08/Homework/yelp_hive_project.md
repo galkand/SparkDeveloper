@@ -184,21 +184,13 @@ SELECT
 cat.category,
 COUNT(DISTINCT ba.business_id) AS businesses_with_info,
 COUNT(DISTINCT CASE WHEN LOWER(ba.attribute_value) = 'true' THEN ba.business_id END) AS accepting_credit_cards,
-ROUND(
-COUNT(DISTINCT CASE WHEN LOWER(ba.attribute_value) = 'true' THEN ba.business_id END) * 100.0 /
-COUNT(DISTINCT ba.business_id),
-2
-) AS acceptance_level
+ROUND(COUNT(DISTINCT CASE WHEN LOWER(ba.attribute_value) = 'true' THEN ba.business_id END) * 100.0 / COUNT(DISTINCT ba.business_id),2 ) AS acceptance_level
 FROM yelp.business_attributes ba
 JOIN yelp.business_category cat ON ba.business_id = cat.business_id
 WHERE LOWER(ba.attribute_key) = 'businessacceptscreditcards'
 GROUP BY cat.category
 HAVING
-ROUND(
-COUNT(DISTINCT CASE WHEN LOWER(ba.attribute_value) = 'true' THEN ba.business_id END) * 100.0 /
-COUNT(DISTINCT ba.business_id),
-2
-) < 50
+ROUND(COUNT(DISTINCT CASE WHEN LOWER(ba.attribute_value) = 'true' THEN ba.business_id END) * 100.0 / COUNT(DISTINCT ba.business_id), 2 ) < 50
 ORDER BY acceptance_level DESC;
 ```
 ##### Влияние наличия летней веранды на рейтинг заведения в разрезе категорий:
