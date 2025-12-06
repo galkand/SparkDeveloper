@@ -17,7 +17,7 @@ object SparkRDDAPI {
     val data                       = Seq("Spark", "Scala", "Java")
     val collectionRDD: RDD[String] = sc.parallelize(data, 2)
     val studentsRDD: RDD[Student]  = sc.parallelize(Student.getStudentsSample)
-    val fileRDD: RDD[String]       = sc.textFile(args(0))
+    val fileRDD: RDD[String]       = sc.textFile("../data/customer_data.json")
 
     //2 - Операции
     println("Операции")
@@ -52,11 +52,11 @@ object SparkRDDAPI {
     })
 
     //3 - Самописное партицирование
-    /*println("\nСамописное партицирование")
+    println("\nСамописное партицирование")
     val keyedRDD: RDD[(Int, Student)]       = studentsRDD.keyBy(_.id)
     val partitionedRDD: RDD[(Int, Student)] = keyedRDD.partitionBy(new CustomPartitioner)
     println(partitionedRDD.map(_._1).glom().collect().map(arr => arr.mkString("|")).mkString(", "))
 
-     */
+    
   }
 }
