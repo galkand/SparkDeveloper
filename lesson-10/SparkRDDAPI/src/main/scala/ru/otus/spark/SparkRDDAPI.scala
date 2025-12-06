@@ -52,9 +52,11 @@ object SparkRDDAPI {
     })
 
     //3 - Самописное партицирование
-    println("\nСамописное партицирование")
+    /*println("\nСамописное партицирование")
     val keyedRDD: RDD[(Int, Student)]       = studentsRDD.keyBy(_.id)
     val partitionedRDD: RDD[(Int, Student)] = keyedRDD.partitionBy(new CustomPartitioner)
     println(partitionedRDD.map(_._1).glom().collect().map(arr => arr.mkString("|")).mkString(", "))
+
+     */
   }
 }
