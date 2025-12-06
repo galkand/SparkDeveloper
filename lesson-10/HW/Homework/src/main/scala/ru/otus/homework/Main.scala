@@ -9,18 +9,13 @@ object Main {
   
   def loadCsv[T: CsvParser : ClassTag](
     path: String,
-    delimiter: String = ",",
-    hasHeader: Boolean = true
+    delimiter: String = ","
   )(implicit sc: SparkContext): RDD[T] = {
     val parser = implicitly[CsvParser[T]]
 
     val lines = sc.textFile(path)
-    val data  = if (hasHeader) {
-      val header = lines.first()
-      lines.filter(_ != header)
-    } else {
-      lines
-    }
+    val header = lines.first()
+    val data  = lines.filter(_ != header)
 
     data
       .map(_.split(delimiter, -1))
