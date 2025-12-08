@@ -50,13 +50,14 @@ object Main {
             }
           }
           .reduceByKey(_ + _)
+          
 
       val resultLines: RDD[String] =
         boroughHourCounts
           .sortBy({ case ((borough, hour), _) => (borough, hour) })
           .map { case ((borough, hour), count) =>
             s"$borough,$hour,$count"
-          }
+          } 
 
       resultLines.saveAsTextFile("output/borough_hour_counts.txt")
 
