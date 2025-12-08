@@ -10,22 +10,23 @@ object CsvParsers {
         dropoffDatetime      = f(2),
         passengerCount       = f(3).toInt,
         tripDistance         = f(4).toDouble,
-        pickupLongitude      = f(5).toDouble,
-        pickupLatitude       = f(6).toDouble,
-        rateCodeId           = f(7).toInt,
-        storeAndFwdFlag      = f(8),
-        dropoffLongitude     = f(9).toDouble,
-        dropoffLatitude      = f(10).toDouble,
-        paymentType          = f(11).toInt,
-        fareAmount           = f(12).toDouble,
-        extra                = f(13).toDouble,
-        mtaTax               = f(14).toDouble,
-        tipAmount            = f(15).toDouble,
-        tollsAmount          = f(16).toDouble,
-        improvementSurcharge = f(17).toDouble,
-        totalAmount          = f(18).toDouble
+        rateCodeId           = f(5).toInt,
+        storeAndFwdFlag      = f(6),
+        puLocationId         = f(7).toInt,
+        doLocationId         = f(8).toInt,
+        paymentType          = f(9).toInt,
+        fareAmount           = f(10).toDouble,
+        extra                = f(11).toDouble,
+        mtaTax               = f(12).toDouble,
+        tipAmount            = f(13).toDouble,
+        tollsAmount          = f(14).toDouble,
+        improvementSurcharge = f(15).toDouble,
+        totalAmount          = f(16).toDouble,
+        congestionSurcharge  = f(17).toDouble,
+        airportFee           = f(18).toDouble
       )
-  }
+}
+
 
   implicit val taxiZoneCsvParser: CsvParser[TaxiZone] = new CsvParser[TaxiZone] {
     override def fromRow(f: Array[String]): TaxiZone =

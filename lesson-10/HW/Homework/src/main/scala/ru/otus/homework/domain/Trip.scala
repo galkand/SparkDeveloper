@@ -6,12 +6,10 @@ final case class Trip(
   dropoffDatetime: String,
   passengerCount: Int,
   tripDistance: Double,
-  pickupLongitude: Double,
-  pickupLatitude: Double,
   rateCodeId: Int,
   storeAndFwdFlag: String,
-  dropoffLongitude: Double,
-  dropoffLatitude: Double,
+  puLocationId: Int,
+  doLocationId: Int,
   paymentType: Int,
   fareAmount: Double,
   extra: Double,
@@ -19,5 +17,7 @@ final case class Trip(
   tipAmount: Double,
   tollsAmount: Double,
   improvementSurcharge: Double,
-  totalAmount: Double
+  totalAmount: Double,
+  congestionSurcharge: Double,
+  airportFee: Double
 )

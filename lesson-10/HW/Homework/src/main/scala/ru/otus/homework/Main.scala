@@ -28,17 +28,38 @@ object Main {
       new SparkContext(new SparkConf().setAppName("Homework").setMaster("local[*]"))
 
     try {
+      
       val trips: RDD[Trip] =
         loadCsv[Trip]("src/main/resources/data/tripdata.csv")
 
       val zones: RDD[TaxiZone] =
         loadCsv[TaxiZone]("src/main/resources/data/taxi_zone_lookup.csv")
 
-      println("Первые 3 поездки:")
-      trips.take(3).foreach(println)
+      val zonesMap = sc.broadcast(
+      zones
+        .map(z => z.locationId -> z.borough)
+        .collectAsMap()
+      )
 
-      println("Первые 3 зоны:")
-      zones.take(3).foreach(println)
+      val boroughHourCounts: RDD[((String, Int), Long)] =
+        trips
+          .flatMap { trip =>
+            val hour = trip.pickupDatetime.substring(11, 13).toInt
+            zonesMap.value.get(trip.puLocationId).map { borough =>
+              ((borough, hour), 1L)
+            }
+          }
+          .reduceByKey(_ + _)
+
+      val resultLines: RDD[String] =
+        boroughHourCounts
+          .sortBy({ case ((borough, hour), _) => (borough, hour) })
+          .map { case ((borough, hour), count) =>
+            s"$borough,$hour,$count"
+          }
+
+      resultLines.saveAsTextFile("output/borough_hour_counts.txt")
+
     } finally {
       sc.stop()
     }
