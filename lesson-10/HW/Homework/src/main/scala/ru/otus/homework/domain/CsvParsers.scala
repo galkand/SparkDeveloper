@@ -1,5 +1,6 @@
 package ru.otus.homework.domain
 
+
 object CsvParsers {
 
   implicit val tripCsvParser: CsvParser[Trip] = new CsvParser[Trip] {

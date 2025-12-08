@@ -21,3 +21,4 @@ final case class Trip(
   congestionSurcharge: Double,
   airportFee: Double
 )
+

@@ -6,3 +6,4 @@ package ru.otus.homework.domain
 trait CsvParser[T] extends Serializable {
   def fromRow(fields: Array[String]): T
 }
+

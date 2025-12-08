@@ -6,3 +6,4 @@ final case class TaxiZone(
   zone: String,
   serviceZone: String
 )
+
