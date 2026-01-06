@@ -20,14 +20,12 @@ object Main {
 
     StructField("borders", ArrayType(StringType, containsNull = true), nullable = true),
 
-    // Ключевой момент: languages как MAP, а не STRUCT
     StructField("languages", MapType(StringType, StringType, valueContainsNull = true), nullable = true)
   ))
 
   spark.read
     .schema(schema)
     .option("multiline", "true")
-    // если вдруг попадётся "грязный" JSON — лучше не падать, а занулить
     .option("mode", "PERMISSIVE")
     .json(inputPath)
 }
@@ -45,7 +43,6 @@ object Main {
       .select(
         col("cca3").as("cca3"),
         col("name.common").as("Country"),
-        // borders может быть null => приводим к пустому массиву
         coalesce(col("borders").cast(ArrayType(StringType)), array().cast(ArrayType(StringType))).as("borders")
       )
       .where(col("cca3").isNotNull && col("Country").isNotNull)
@@ -58,7 +55,6 @@ object Main {
         first(size(col("borders"))).as("NumBorders"),
         array_sort(array_distinct(collect_list(col("country_name")))).as("BorderCountriesArr")
       )
-      // убираем null, если какие-то cca3 не нашли в справочнике
       .withColumn("BorderCountriesArr", expr("filter(BorderCountriesArr, x -> x is not null)"))
       .withColumn("BorderCountries", concat_ws(", ", col("BorderCountriesArr")))
       .drop("BorderCountriesArr", "cca3")
