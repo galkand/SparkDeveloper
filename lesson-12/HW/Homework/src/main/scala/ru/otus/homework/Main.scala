@@ -1,6 +1,6 @@
 package ru.otus.homework
 
-import org.apache.spark.sql.{DatasetHolder, SparkSession}
+import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 
@@ -27,11 +27,7 @@ object Main {
       .getOrCreate()
 
 
-    writeParquet(dfBorders, outBorders)
-
-    dfBorders.show(20, truncate = false)
-    dfLangs.show(20, truncate = false)
-
     spark.stop()
+
   }
 }
