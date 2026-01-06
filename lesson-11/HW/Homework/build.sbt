@@ -1,18 +1,20 @@
-ThisBuild / organization := "ru.otus.homework"
-ThisBuild / version      := "1.0"
+import sbt.ClassLoaderLayeringStrategy
+
 ThisBuild / scalaVersion := "2.12.18"
+ThisBuild / organization := "local"
+ThisBuild / version      := "0.1.0"
 
-val sparkVersion = "3.5.5"
-val circeVersion = "0.14.9"
-
-ThisBuild / libraryDependencies ++= Seq(
-  "org.apache.spark" %% "spark-core"    % sparkVersion,
-  "io.circe"         %% "circe-core"    % circeVersion,
-  "io.circe"         %% "circe-generic" % circeVersion,
-  "io.circe"         %% "circe-parser"  % circeVersion
+ThisBuild / fork := true
+ThisBuild / classLoaderLayeringStrategy := ClassLoaderLayeringStrategy.Flat
+ThisBuild / javaOptions ++= Seq(
+  "--add-exports=java.base/sun.nio.ch=ALL-UNNAMED",
+  "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED"
 )
 
 lazy val root = (project in file("."))
   .settings(
-    name := "Homework"
+    name := "Homework",
+    libraryDependencies ++= Seq(
+      "org.apache.spark" %% "spark-sql" % "3.5.1"
+    )
   )
